@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StatsVault</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:        #0a0c10;
+      --surface:   #111318;
+      --border:    #1e2330;
+      --accent:    #e8b94f;
+      --accent2:   #c0392b;
+      --text:      #e8eaf0;
+      --muted:     #5a6175;
+      --glow:      rgba(232, 185, 79, 0.18);
+    }
+ 
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+ 
+    /* Background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+ 
+    /* Glow blob */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(232,185,79,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+ 
+    /* ── CONTAINER ── */
+    .container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 48px;
+      padding: 40px 20px;
+      animation: fadeUp 0.8s ease both;
+    }
+ 
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+ 
+    /* ── LOGO ── */
+    .logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+ 
+    .logo-icon {
+      width: 64px;
+      height: 64px;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: var(--accent);
+      position: relative;
+      clip-path: polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%);
+      background: rgba(232,185,79,0.05);
+      animation: pulse 3s ease-in-out infinite;
+    }
+ 
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 var(--glow); }
+      50%       { box-shadow: 0 0 24px 6px var(--glow); }
+    }
+ 
+    .logo-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 42px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+ 
+    .logo-title span {
+      color: var(--accent);
+    }
+ 
+    .logo-sub {
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+ 
+    /* ── GAME TABS ── */
+    .game-tabs {
+      display: flex;
+      gap: 8px;
+    }
+ 
+    .tab {
+      padding: 6px 18px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    }
+ 
+    .tab.active, .tab:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(232,185,79,0.06);
+    }
+ 
+    /* ── SEARCH CARD ── */
+    .search-card {
+      width: 100%;
+      max-width: 520px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 36px;
+      position: relative;
+      clip-path: polygon(16px 0%, 100% 0%, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0% 100%, 0% 16px);
+    }
+ 
+    /* corner accents */
+    .search-card::before,
+    .search-card::after {
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-color: var(--accent);
+      border-style: solid;
+    }
+    .search-card::before { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+    .search-card::after  { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+ 
+    .search-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+ 
+    .search-input-wrap {
+      position: relative;
+      margin-bottom: 20px;
+    }
+ 
+    .search-input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 14px 50px 14px 18px;
+      outline: none;
+      transition: border-color 0.2s;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    }
+ 
+    .search-input::placeholder { color: var(--muted); font-weight: 400; }
+    .search-input:focus { border-color: var(--accent); }
+ 
+    .search-icon {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 18px;
+      pointer-events: none;
+    }
+ 
+    .search-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent);
+      color: #0a0c10;
+      border: none;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    }
+ 
+    .search-btn:hover {
+      background: #f0c96a;
+      transform: translateY(-1px);
+    }
+ 
+    .search-btn:active { transform: translateY(0); }
+ 
+    /* ── ERROR MSG ── */
+    .error-msg {
+      display: none;
+      margin-top: 14px;
+      padding: 10px 16px;
+      border-left: 3px solid var(--accent2);
+      background: rgba(192,57,43,0.08);
+      font-size: 13px;
+      color: #e07070;
+    }
+ 
+    /* ── LOADING ── */
+    .loading {
+      display: none;
+      margin-top: 14px;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+ 
+    .loading.visible { display: flex; }
+ 
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+ 
+    @keyframes spin { to { transform: rotate(360deg); } }
+ 
+    /* ── FOOTER ── */
+    .footer {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+ 
+  <div class="container">
+ 
+    <!-- Logo -->
+    <div class="logo">
+      <div class="logo-icon">⬡</div>
+      <div class="logo-title">Stats<span>Vault</span></div>
+      <div class="logo-sub">Game Performance Tracker</div>
+    </div>
+ 
+    <!-- Game tabs -->
+    <div class="game-tabs">
+      <button class="tab active">Valorant</button>
+      <button class="tab">Em Breve</button>
+    </div>
+ 
+    <!-- Search card -->
+    <div class="search-card">
+      <div class="search-label">Pesquisar Jogador</div>
+ 
+      <div class="search-input-wrap">
+        <input
+          class="search-input"
+          id="searchInput"
+          type="text"
+          placeholder="Username#Tag"
+          autocomplete="off"
+        />
+        <span class="search-icon">⌕</span>
+      </div>
+ 
+      <button class="search-btn" onclick="pesquisar()">
+        Pesquisar
+      </button>
+ 
+      <!-- Loading -->
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        A carregar dados...
+      </div>
+ 
+      <!-- Error -->
+      <div class="error-msg" id="errorMsg">
+        Jogador não encontrado. Verifica o username e tenta novamente.
+      </div>
+    </div>
+ 
+    <div class="footer">StatsVault &nbsp;·&nbsp; v0.1.0</div>
+ 
+  </div>
+ <script src="script.js"></script>
+</body>
+</html>
+ 

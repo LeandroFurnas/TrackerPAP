@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StatsVaultX — Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-logo" onclick="window.location.href='index.html'">
+      Stats<span>Vault</span>X
+    </div>
+    <div class="nav-right">
+      <span class="offline-badge" id="offlineBadge">● OFFLINE</span>
+      <button class="btn-voltar" onclick="window.location.href='index.html'">← Voltar</button>
+    </div>
+  </nav>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="dashboard">
+
+    <!-- Perfil do jogador -->
+    <section class="perfil-card">
+      <div class="perfil-avatar" id="avatar">?</div>
+      <div class="perfil-info">
+        <h1 class="perfil-nome" id="nomeJogador">A carregar...</h1>
+        <p class="perfil-tag" id="tagJogador">#0000</p>
+        <div class="perfil-rank" id="rankJogador">— Rank —</div>
+      </div>
+    </section>
+
+    <!-- Estatísticas principais -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">K/D Ratio</div>
+        <div class="stat-valor" id="kd">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Taxa de Vitórias</div>
+        <div class="stat-valor" id="winrate">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Partidas Jogadas</div>
+        <div class="stat-valor" id="partidas">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Nível</div>
+        <div class="stat-valor" id="nivel">—</div>
+      </div>
+    </section>
+
+    <!-- Agentes mais jogados -->
+    <section class="secao">
+      <h2 class="secao-titulo">Agentes Mais Jogados</h2>
+      <div class="agentes-lista" id="agentesLista">
+        <!-- Preenchido pelo JavaScript -->
+      </div>
+    </section>
+
+    <!-- Histórico de partidas -->
+    <section class="secao">
+      <h2 class="secao-titulo">Últimas Partidas</h2>
+      <div class="historico-lista" id="historicoLista">
+        <!-- Preenchido pelo JavaScript -->
+      </div>
+    </section>
+
+  </main>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

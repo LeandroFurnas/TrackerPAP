@@ -1,0 +1,28 @@
+{
+  "name": "statsvaultx",
+  "version": "0.1.0",
+  "description": "Game Performance Tracker — PAP 2025/2026",
+  "main": "main.js",
+  "author": "Leandro Peixoto",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "dependencies": {
+    "electron": "^28.0.0"
+  },
+  "devDependencies": {
+    "electron-builder": "^24.0.0"
+  },
+  "build": {
+    "appId": "com.statsvaultx.app",
+    "productName": "StatsVaultX",
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    },
+    "directories": {
+      "output": "dist"
+    }
+  }
+}
